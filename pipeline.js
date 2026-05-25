@@ -684,6 +684,71 @@ function goToMenu() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SCROLL-REVEAL  (Intersection Observer)
+// Watches elements below the fold and adds .revealed / .card-revealed
+// when they cross the viewport threshold, triggering CSS transitions.
+// ─────────────────────────────────────────────────────────────────────────────
+function initScrollReveal() {
+  // Sections flow in as a whole
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        sectionObserver.unobserve(entry.target); // fire once
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.culture-section').forEach((el, i) => {
+    // Stagger each section's entrance slightly
+    el.style.transitionDelay = `${i * 80}ms`;
+    sectionObserver.observe(el);
+  });
+
+  // Cards fly in with per-card stagger index
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Assign stagger index to each card inside this grid
+        const cards = entry.target.querySelectorAll('.matatu-card');
+        cards.forEach((card, i) => {
+          card.style.setProperty('--i', i);
+          // Small timeout so the section reveal lands first
+          setTimeout(() => card.classList.add('card-revealed'), 80);
+        });
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.matatu-cards').forEach(el => cardObserver.observe(el));
+
+  // Rule items stagger in
+  const ruleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const items = entry.target.querySelectorAll('.rule-item');
+        items.forEach((item, i) => {
+          item.style.opacity    = '0';
+          item.style.transform  = 'translateY(30px)';
+          item.style.transition = `opacity 0.5s ease ${i * 100}ms, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 100}ms`;
+          setTimeout(() => {
+            item.style.opacity   = '1';
+            item.style.transform = 'none';
+          }, 40);
+        });
+        ruleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.rules-grid').forEach(el => ruleObserver.observe(el));
+}
+
+// Run on page load
+initScrollReveal();
+
+// ─────────────────────────────────────────────────────────────────────────────
 // BUTTON WIRING
 // ─────────────────────────────────────────────────────────────────────────────
 document.getElementById('intro-play-btn').addEventListener('click', startGame);
