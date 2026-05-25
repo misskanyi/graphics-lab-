@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nairobi Rush — Matatu Culture</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       INTRO / CULTURE PAGE  (shown on first load)
+  ═══════════════════════════════════════════════════ -->
+  <div id="intro-screen">
+    <div id="intro-inner">
+      <div id="intro-header">
+        <div id="intro-logo">🚌</div>
+        <h1>Matatu Surfer</h1>
+        <p class="intro-tagline">A tribute to Kenya's wildest road culture</p>
+      </div>
+
+      <section class="culture-section">
+        <h2>What is Matatu Culture?</h2>
+        <p>
+          Matatus are privately owned minibuses that form the backbone of public transport
+          in Kenya, carrying millions of passengers across Nairobi and beyond every single day.
+          Far more than just transport, they are rolling art galleries — covered head-to-toe
+          in elaborate graffiti, neon lights, massive sound systems, and larger-than-life
+          personalities. Each matatu tells a story: of the driver, the tout (conductor), the
+          passengers, and the streets they call home.
+        </p>
+        <p>
+          The culture peaked in the early 2000s and has never slowed down. Regulations have
+          come and gone, but the spirit remains. A matatu is not just a vehicle — it is a
+          statement.
+        </p>
+      </section>
+
+      <section class="culture-section">
+        <h2>Famous Matatus You Should Know</h2>
+        <div class="matatu-cards">
+
+          <div class="matatu-card">
+            <div class="card-art" style="background:linear-gradient(135deg,#5C3317,#8B4513,#D2691E)">
+              <span class="card-bus-icon">🚌</span>
+              <div class="card-graffiti">MOOD</div>
+            </div>
+            <div class="card-info">
+              <h3>Mood (Route 23)</h3>
+              <p>One of Nairobi's most photographed matatus. Famous for its full-body anime
+              artwork, LED underglow, and a sound system loud enough to rattle your teeth.
+              Operates around Umoja and CBD.</p>
+              <span class="card-tag">Anime • Neon • Bass</span>
+            </div>
+          </div>
+
+          <div class="matatu-card">
+            <div class="card-art" style="background:linear-gradient(135deg,#2C1810,#6B3A2A,#CD853F)">
+              <span class="card-bus-icon">🚌</span>
+              <div class="card-graffiti">SOURCE</div>
+            </div>
+            <div class="card-info">
+              <h3>Source (Route 33)</h3>
+              <p>A legendary Eastlands matatu known for hip-hop and trap murals, decked out
+              with portraits of rappers and Nairobi street art. A cultural icon on the
+              Kayole–CBD stretch.</p>
+              <span class="card-tag">Hip-Hop • Street Art • East</span>
+            </div>
+          </div>
+
+          <div class="matatu-card">
+            <div class="card-art" style="background:linear-gradient(135deg,#3B1F0A,#8B6914,#F4A460)">
+              <span class="card-bus-icon">🚌</span>
+              <div class="card-graffiti">OG RONGA</div>
+            </div>
+            <div class="card-info">
+              <h3>OG Ronga (Route 58)</h3>
+              <p>A Githurai-CBD veteran. The OG Ronga is known for afrobeats vibes, bold
+              orange and black paint, and a tout whose commentary rivals a radio presenter.
+              Beloved by commuters for decades.</p>
+              <span class="card-tag">Afrobeats • Vintage • North</span>
+            </div>
+          </div>
+
+          <div class="matatu-card">
+            <div class="card-art" style="background:linear-gradient(135deg,#1A0F00,#7B3F00,#DEB887)">
+              <span class="card-bus-icon">🚌</span>
+              <div class="card-graffiti">THE BEAST</div>
+            </div>
+            <div class="card-info">
+              <h3>The Beast (Route 46)</h3>
+              <p>Infamous for its monster-movie horror artwork and bone-rattling subwoofers.
+              The Beast runs the Kawangware–CBD route and is a favourite of students at
+              nearby colleges.</p>
+              <span class="card-tag">Horror Art • Sub-Bass • West</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="culture-section rules-section">
+        <h2>How to Play</h2>
+        <div class="rules-grid">
+          <div class="rule-item">
+            <span class="rule-icon">⬅️➡️</span>
+            <p>Arrow Keys / A D — change lanes</p>
+          </div>
+          <div class="rule-item">
+            <span class="rule-icon">SPACE</span>
+            <p>Hold Space Bar — BOOST (use wisely!)</p>
+          </div>
+          <div class="rule-item">
+            <span class="rule-icon">⬆️⬇️</span>
+            <p>W S / Up Down — fine speed control</p>
+          </div>
+          <div class="rule-item">
+            <span class="rule-icon">⏸</span>
+            <p>P Key or Pause button — pause game</p>
+          </div>
+        </div>
+      </section>
+
+      <button id="intro-play-btn">GET ON THE MATATU</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       GAME SCREEN
+  ═══════════════════════════════════════════════════ -->
+  <div id="game-screen" class="hidden">
+
+    <!-- Top control bar -->
+    <div id="top-bar">
+      <button id="pause-btn" class="top-btn">⏸ PAUSE</button>
+      <div id="hud">
+        <span id="score-display">SCORE: 0</span>
+        <span id="lives-display">❤️❤️❤️</span>
+        <span id="speed-display">SPEED: 1x</span>
+        <span id="boost-display">BOOST: ████████</span>
+      </div>
+      <button id="restart-btn-top" class="top-btn">↺ RESTART</button>
+    </div>
+
+    <div id="stage-indicator">
+      <div class="stage-tag" id="tag-app">APPLICATION</div>
+      <div class="stage-tag" id="tag-geo">GEOMETRY</div>
+      <div class="stage-tag" id="tag-rast">RASTERIZATION</div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Pause overlay -->
+    <div id="pause-screen" class="hidden overlay-screen">
+      <h1>PAUSED</h1>
+      <p>Take a breather — the road will wait.</p>
+      <button id="resume-btn">RESUME</button>
+      <button id="quit-btn">BACK TO MENU</button>
+    </div>
+
+    <!-- Game over overlay -->
+    <div id="gameover-screen" class="hidden overlay-screen">
+      <h1>GAME OVER</h1>
+      <p id="final-score"></p>
+      <button id="play-again-btn">PLAY AGAIN</button>
+      <button id="menu-btn">BACK TO MENU</button>
+    </div>
+
+  </div>
+
+  <script src="pipeline.js"></script>
+</body>
+</html>
