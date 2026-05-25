@@ -13,10 +13,34 @@
   ═══════════════════════════════════════════════════ -->
   <div id="intro-screen">
     <div id="intro-inner">
-      <div id="intro-header">
-        <div id="intro-logo">🚌</div>
-        <h1>Matatu Surfer</h1>
-        <p class="intro-tagline">A tribute to Kenya's wildest road culture</p>
+
+      <!-- ── HERO (visible immediately on load) ── -->
+      <div id="intro-hero">
+        <!-- Animated road behind everything -->
+        <div id="hero-road">
+          <div class="road-lane-dash" style="left:33%"></div>
+          <div class="road-lane-dash" style="left:66%"></div>
+        </div>
+
+        <!-- Buses rolling across the hero -->
+        <div class="hero-bus bus1">🚌</div>
+        <div class="hero-bus bus2">🚌</div>
+        <div class="hero-bus bus3">🚌</div>
+
+        <!-- Floating dust particles -->
+        <div class="dust-particle" style="--dx:20%;--dy:60%;--delay:0s"></div>
+        <div class="dust-particle" style="--dx:70%;--dy:30%;--delay:1.2s"></div>
+        <div class="dust-particle" style="--dx:45%;--dy:75%;--delay:2.4s"></div>
+        <div class="dust-particle" style="--dx:85%;--dy:50%;--delay:0.7s"></div>
+        <div class="dust-particle" style="--dx:10%;--dy:40%;--delay:1.9s"></div>
+
+        <div id="hero-content">
+          <div id="intro-logo">🚌</div>
+          <h1 id="hero-title">MATATU SURFER</h1>
+          <p class="intro-tagline">A tribute to Kenya's wildest road culture</p>
+          <button id="intro-play-btn">GET ON THE MATATU</button>
+          <p class="scroll-hint">↓ scroll to learn about the culture ↓</p>
+        </div>
       </div>
 
       <section class="culture-section">
@@ -121,7 +145,6 @@
         </div>
       </section>
 
-      <button id="intro-play-btn">GET ON THE MATATU</button>
     </div>
   </div>
 

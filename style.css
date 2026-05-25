@@ -18,68 +18,260 @@
 }
 
 html, body {
-  height: 100%;
   background: var(--brown-dark);
   font-family: 'Courier New', monospace;
   color: var(--text-light);
   overflow-x: hidden;
 }
 
-/* ──────────────────────────────────────────────────────
-   INTRO PAGE
-────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+═══════════════════════════════════════════════════════ */
+
+/* Title glow pulse */
+@keyframes titlePulse {
+  0%, 100% { text-shadow: 0 0 20px var(--brown-warm), 0 0 50px var(--brown-mid), 0 0 90px #3B1500; }
+  50%       { text-shadow: 0 0 40px var(--brown-sand), 0 0 80px var(--brown-warm), 0 0 130px var(--brown-mid); }
+}
+
+/* Logo bounce */
+@keyframes logoBounce {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%       { transform: translateY(-14px) rotate(4deg); }
+}
+
+/* Bus rolling across screen left→right */
+@keyframes busRoll {
+  0%   { transform: translateX(-120px) scaleX(-1); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 120px)) scaleX(-1); opacity: 0; }
+}
+
+/* Road dashes scrolling down */
+@keyframes dashScroll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 200px; }
+}
+
+/* Floating dust/smoke particles */
+@keyframes dustFloat {
+  0%   { transform: translate(var(--dx), var(--dy)) scale(0);   opacity: 0; }
+  20%  { opacity: 0.6; }
+  80%  { opacity: 0.3; }
+  100% { transform: translate(calc(var(--dx) + 30px), calc(var(--dy) - 80px)) scale(1.8); opacity: 0; }
+}
+
+/* Button shimmer sweep */
+@keyframes btnShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Button entrance */
+@keyframes btnEntrance {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Tagline fade in */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card slide in from below */
+@keyframes cardSlide {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll hint bob */
+@keyframes scrollBob {
+  0%, 100% { transform: translateY(0);  opacity: 0.5; }
+  50%       { transform: translateY(6px); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   INTRO PAGE — HERO SECTION
+═══════════════════════════════════════════════════════ */
+
 #intro-screen {
   min-height: 100vh;
-  background: linear-gradient(180deg, #0D0500 0%, #2C1000 40%, #1A0A00 100%);
-  display: flex;
-  justify-content: center;
-  padding: 40px 16px 60px;
+  background: #0D0500;
 }
 
 #intro-inner {
-  max-width: 860px;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
 }
 
-#intro-header {
+/* Hero — full viewport height, user sees this first */
+#intro-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 60%, #3B1500 0%, #1A0800 45%, #0D0500 100%);
+}
+
+/* Animated road surface behind content */
+#hero-road {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 24px,
+      rgba(92,46,0,0.15) 24px,
+      rgba(92,46,0,0.15) 26px
+    );
+  animation: dashScroll 0.6s linear infinite;
+  pointer-events: none;
+}
+
+/* Lane divider lines on the road */
+.road-lane-dash {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(139,69,19,0.4) 0px,
+    rgba(139,69,19,0.4) 28px,
+    transparent 28px,
+    transparent 44px
+  );
+  animation: dashScroll 0.6s linear infinite;
+}
+
+/* Animated matatu buses rolling across the background */
+.hero-bus {
+  position: absolute;
+  font-size: 3.5rem;
+  filter: drop-shadow(0 4px 12px rgba(139,69,19,0.6));
+  pointer-events: none;
+  animation: busRoll linear infinite;
+}
+.bus1 { top: 18%; animation-duration: 9s;  animation-delay: 0s;   opacity: 0.55; font-size: 2.8rem; }
+.bus2 { top: 55%; animation-duration: 13s; animation-delay: 3.5s; opacity: 0.45; font-size: 4rem; }
+.bus3 { top: 76%; animation-duration: 7s;  animation-delay: 6s;   opacity: 0.35; font-size: 2.2rem; }
+
+/* Dust particles floating up */
+.dust-particle {
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--brown-warm);
+  animation: dustFloat 4s ease-out infinite;
+  animation-delay: var(--delay, 0s);
+  pointer-events: none;
+}
+
+/* Hero text content — stacked and centred */
+#hero-content {
+  position: relative;
+  z-index: 10;
   text-align: center;
-  padding: 30px 0 10px;
-  border-bottom: 2px solid var(--brown-mid);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 0 20px;
 }
 
 #intro-logo {
-  font-size: 3.5rem;
-  filter: drop-shadow(0 0 16px var(--brown-warm));
+  font-size: 4.5rem;
+  animation: logoBounce 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px var(--brown-warm));
 }
 
-#intro-header h1 {
-  font-size: 3.2rem;
-  letter-spacing: 6px;
+#hero-title {
+  font-size: clamp(2.2rem, 8vw, 4.2rem);
+  letter-spacing: 8px;
   color: var(--brown-sand);
-  text-shadow: 0 0 24px var(--brown-warm), 0 0 48px var(--brown-mid);
-  margin: 8px 0 4px;
+  animation: titlePulse 2.8s ease-in-out infinite;
+  line-height: 1.1;
 }
 
 .intro-tagline {
   color: var(--text-dim);
-  font-size: 0.95rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: fadeUp 1s ease-out 0.4s both;
+}
+
+/* CTA button — prominent, animated */
+#intro-play-btn {
+  margin-top: 8px;
+  padding: 18px 60px;
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.95rem, 3vw, 1.25rem);
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: var(--brown-dark);
+  background: linear-gradient(
+    90deg,
+    var(--brown-main) 0%,
+    var(--brown-sand) 30%,
+    var(--brown-warm) 50%,
+    var(--brown-sand) 70%,
+    var(--brown-main) 100%
+  );
+  background-size: 200% auto;
+  border: 2px solid var(--brown-sand);
+  cursor: pointer;
+  border-radius: 2px;
+  animation: btnEntrance 0.9s ease-out 0.8s both,
+             btnShimmer  2.4s linear 1.8s infinite;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+#intro-play-btn:hover {
+  transform: scale(1.07) translateY(-3px);
+  box-shadow: 0 0 36px var(--brown-warm), 0 8px 24px rgba(0,0,0,0.5);
+}
+
+#intro-play-btn:active {
+  transform: scale(0.97) translateY(1px);
+}
+
+.scroll-hint {
+  margin-top: 4px;
+  font-size: 0.72rem;
   letter-spacing: 2px;
+  color: var(--text-dim);
+  animation: scrollBob 2s ease-in-out infinite;
   text-transform: uppercase;
 }
 
-/* Culture sections */
+/* ═══════════════════════════════════════════════════════
+   INTRO PAGE — CULTURE / CARDS (below the fold)
+═══════════════════════════════════════════════════════ */
+
 .culture-section {
-  background: rgba(92,46,0,0.18);
-  border: 1px solid var(--brown-mid);
-  border-radius: 4px;
-  padding: 28px;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background: rgba(92,46,0,0.12);
+  border-top: 1px solid var(--brown-mid);
+}
+
+.culture-section:first-of-type {
+  border-top: 2px solid var(--brown-mid);
+  margin-top: 0;
 }
 
 .culture-section h2 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--brown-sand);
@@ -91,7 +283,7 @@ html, body {
 .culture-section p {
   color: var(--text-light);
   line-height: 1.85;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   margin-bottom: 12px;
 }
 .culture-section p:last-child { margin-bottom: 0; }
@@ -109,12 +301,18 @@ html, body {
   border-radius: 4px;
   overflow: hidden;
   background: #1A0A00;
+  animation: cardSlide 0.6s ease-out both;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.matatu-card:nth-child(1) { animation-delay: 0.1s; }
+.matatu-card:nth-child(2) { animation-delay: 0.2s; }
+.matatu-card:nth-child(3) { animation-delay: 0.3s; }
+.matatu-card:nth-child(4) { animation-delay: 0.4s; }
+
 .matatu-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(139,69,19,0.5);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 28px rgba(139,69,19,0.55);
 }
 
 .card-art {
@@ -123,45 +321,41 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .card-bus-icon {
-  font-size: 2.2rem;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+  font-size: 2.4rem;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
 }
 
 .card-graffiti {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: bold;
   letter-spacing: 2px;
   color: rgba(255,255,255,0.9);
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.4);
   padding: 2px 8px;
   border-radius: 2px;
   margin-top: 4px;
 }
 
-.card-info {
-  padding: 12px;
-}
+.card-info { padding: 12px; }
 
 .card-info h3 {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--brown-sand);
   margin-bottom: 6px;
 }
 
 .card-info p {
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   color: var(--text-dim);
   line-height: 1.6;
   margin-bottom: 8px;
 }
 
 .card-tag {
-  font-size: 0.65rem;
+  font-size: 0.63rem;
   color: var(--brown-warm);
   border: 1px solid var(--brown-mid);
   padding: 2px 6px;
@@ -169,9 +363,7 @@ html, body {
   letter-spacing: 1px;
 }
 
-/* Rules section */
-.rules-section {}
-
+/* Rules grid */
 .rules-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -188,46 +380,24 @@ html, body {
 
 .rule-icon {
   display: block;
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  color: var(--brown-sand);
+  font-size: 1.1rem;
   font-weight: bold;
   letter-spacing: 1px;
+  color: var(--brown-sand);
+  margin-bottom: 8px;
 }
 
 .rule-item p {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--text-dim);
   line-height: 1.5;
   margin: 0;
 }
 
-/* Play button */
-#intro-play-btn {
-  align-self: center;
-  padding: 16px 56px;
-  font-family: 'Courier New', monospace;
-  font-size: 1.2rem;
-  font-weight: bold;
-  letter-spacing: 4px;
-  background: var(--brown-main);
-  color: var(--text-light);
-  border: 2px solid var(--brown-sand);
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-  border-radius: 2px;
-}
-
-#intro-play-btn:hover {
-  background: var(--accent);
-  box-shadow: 0 0 28px var(--brown-warm);
-  transform: scale(1.04);
-}
-
-/* ──────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════
    GAME SCREEN
-────────────────────────────────────────────────────── */
+═══════════════════════════════════════════════════════ */
+
 #game-screen {
   display: flex;
   flex-direction: column;
@@ -250,7 +420,7 @@ html, body {
 
 #hud {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   font-size: 11px;
@@ -259,9 +429,7 @@ html, body {
   flex: 1;
 }
 
-#boost-display {
-  color: var(--gold);
-}
+#boost-display { color: var(--gold); }
 
 .top-btn {
   padding: 5px 10px;
@@ -312,9 +480,10 @@ html, body {
   box-shadow: 0 0 30px rgba(139,69,19,0.4);
 }
 
-/* ──────────────────────────────────────────────────────
-   OVERLAY SCREENS (pause / gameover)
-────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   OVERLAY SCREENS (pause / game over)
+═══════════════════════════════════════════════════════ */
+
 .overlay-screen {
   position: fixed;
   inset: 0;
@@ -322,7 +491,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(10,4,0,0.9);
+  background: rgba(10,4,0,0.92);
   z-index: 50;
   gap: 18px;
 }
